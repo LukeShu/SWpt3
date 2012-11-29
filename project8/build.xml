@@ -19,16 +19,16 @@
 			<zipfileset excludes="META-INF/*.SF" src="lib/Channel.jar"/>
         </jar>
 
-		<jar destfile="build/jar/Requester.jar" basedir="build/classes">
+		<jar destfile="build/jar/Request.jar" basedir="build/classes">
 			<manifest>
-    	    	<attribute name="Main-Class" value="edu.purdue.cs.cs180.clients.DesktopRequester" />
+    	    	<attribute name="Main-Class" value="edu.purdue.cs.cs180.clients.DesktopRequest" />
     	    	<attribute name="Class-Path" value="." />
 			</manifest>
 			<zipfileset excludes="META-INF/*.SF" src="lib/Channel.jar"/>
 		</jar>
-        <jar destfile="build/jar/Responder.jar" basedir="build/classes">
+        <jar destfile="build/jar/Response.jar" basedir="build/classes">
         	<manifest>
-    	    	<attribute name="Main-Class" value="edu.purdue.cs.cs180.clients.DesktopResponder" />
+    	    	<attribute name="Main-Class" value="edu.purdue.cs.cs180.clients.DesktopResponse" />
     	    	<attribute name="Class-Path" value="." />
 			</manifest>
 			<zipfileset excludes="META-INF/*.SF" src="lib/Channel.jar"/>
