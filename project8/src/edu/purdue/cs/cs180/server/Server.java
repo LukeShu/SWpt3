@@ -108,8 +108,8 @@ public class Server implements MessageListener {
 	public void messageReceived(String messageString, int clientID) {
 		assert (messageString != null);
 		System.out.println(clientID + ": " + messageString); // For debugging
-																// only, not
-																// required.
+		                                                     // only, not
+		                                                     // required.
 		Message message = new Message(messageString, clientID);
 		switch (message.getType()) {
 		case Request:
@@ -130,7 +130,7 @@ public class Server implements MessageListener {
 	 * 
 	 * @param args Expects a port number.
 	 */
-	public static void main(String[] args) {		
+	public static void main(String[] args) {
 		new Server(Integer.parseInt(args[0]));
 	}
 }
