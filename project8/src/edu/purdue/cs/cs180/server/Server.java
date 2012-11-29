@@ -59,6 +59,59 @@ public class Server implements MessageListener {
 	 */
 	private ArrayList<Message> pendingResponders = new ArrayList<Message>();
 
+	private DataFeeder feeder = new DataFeeder() {
+			public Message getFirstRequest() {
+				synchronized (pendingRequesters) {
+					return pendingRequesters.get(0);
+				}
+			}
+			public Message getFirstResponse() {
+				synchronized (pendingResponders) {
+					return pendingResponders.get(0);
+				}
+			}
+			public Message getLastRequest() {
+				synchronized (pendingRequesters) {
+					return pendingRequesters.get(pendingRequesters.size()-1);
+				}
+			}
+			public Message getLastResponse() {
+				synchronized (pendingResponders) {
+					return pendingResponders.get(pendingResponders.size()-1);
+				}
+			}
+			public boolean hasNextRequest() {
+				synchronized (pendingRequesters) {
+					return !pendingRequesters.isEmpty();
+				}
+			}
+			public boolean hasNextResponse() {
+				synchronized (pendingResponders) {
+					return !pendingResponders.isEmpty();
+				}
+			}
+			public void removeFirstRequest() {
+				synchronized (pendingRequesters) {
+					pendingRequesters.remove(0);
+				}
+			}
+			public void removeFirstResponse() {
+				synchronized (pendingResponders) {
+					pendingResponders.remove(0);
+				}
+			}
+			public void removeLastRequest() {
+				synchronized (pendingRequesters) {
+					pendingRequesters.remove(pendingRequesters.size()-1);
+				}
+			}
+			public void removeLastResponse() {
+				synchronized (pendingResponders) {
+					pendingResponders.remove(pendingResponders.size()-1);
+				}
+			}
+		};
+
 	/**
 	 * Handles the messages, called from messageReceived. Designed to handle one
 	 * of 2 scenarios. If we receive a request, or if we receive a response, the
