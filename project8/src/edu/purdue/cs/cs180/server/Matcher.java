@@ -1,5 +1,8 @@
 package edu.purdue.cs.cs180.server;
 
+import edu.purdue.cs.cs180.channel.Channel;
+import edu.purdue.cs.cs180.common.Message;
+
 public class Matcher extends Thread {
 	
 	private long sleepTime;

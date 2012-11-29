@@ -1,5 +1,7 @@
 package edu.purdue.cs.cs180.server;
 
+import edu.purdue.cs.cs180.common.Message;
+
 public interface DataFeeder {
 
 	public Message getFirstRequest();
