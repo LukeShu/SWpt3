@@ -45,7 +45,7 @@ public class Server implements MessageListener {
 	 * 
 	 * @param port
 	 */
-	public Server(int port) {
+	public Server(int port, String matchtype, long sleep) {
 		channel = new TCPChannel(port);
 		channel.setMessageListener(this);
 	}
@@ -131,6 +131,6 @@ public class Server implements MessageListener {
 	 * @param args Expects a port number.
 	 */
 	public static void main(String[] args) {		
-		new Server(Integer.parseInt(args[0]));
+		new Server(Integer.parseInt(args[0]), args[1], Long.parseLong(args[2]));
 	}
 }
