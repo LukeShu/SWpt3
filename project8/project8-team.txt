@@ -1,0 +1,10 @@
+// Team composition
+// Team leader: Shumaker, Luke, shumakl
+// Team member 1: Louden, Austin, loudena
+// Team member 2: Jamerson, Michael, mjamers
+
+// Team leader: Shumaker, Luke, shumakl
+
+// Team member 1: Louden, Austin, loudena
+
+// Team member 2: Jamerson, Michael, mjamers

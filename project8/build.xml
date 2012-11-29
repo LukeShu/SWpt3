@@ -1,0 +1,38 @@
+<project default="jars">
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes" classpath="lib/Channel.jar"/>
+    </target>
+    
+    <target name="jars" depends="compile">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/Server.jar" basedir="build/classes">
+	    	<manifest>
+    	    	<attribute name="Main-Class" value="edu.purdue.cs.cs180.server.Server" />
+    	    	<attribute name="Class-Path" value="." />
+			</manifest>
+			<zipfileset excludes="META-INF/*.SF" src="lib/Channel.jar"/>
+        </jar>
+
+		<jar destfile="build/jar/Requester.jar" basedir="build/classes">
+			<manifest>
+    	    	<attribute name="Main-Class" value="edu.purdue.cs.cs180.clients.DesktopRequester" />
+    	    	<attribute name="Class-Path" value="." />
+			</manifest>
+			<zipfileset excludes="META-INF/*.SF" src="lib/Channel.jar"/>
+		</jar>
+        <jar destfile="build/jar/Responder.jar" basedir="build/classes">
+        	<manifest>
+    	    	<attribute name="Main-Class" value="edu.purdue.cs.cs180.clients.DesktopResponder" />
+    	    	<attribute name="Class-Path" value="." />
+			</manifest>
+			<zipfileset excludes="META-INF/*.SF" src="lib/Channel.jar"/>
+		</jar>
+    </target>
+
+</project>
