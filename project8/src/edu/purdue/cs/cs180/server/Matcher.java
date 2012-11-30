@@ -20,7 +20,9 @@ public class Matcher extends Thread {
 	public void run() {
 		while (true) {
 			//
-			sleep(sleepTime);
+			try {
+				sleep(sleepTime);
+			} catch (InterruptedException e) {}
 		}
 	}
 }
