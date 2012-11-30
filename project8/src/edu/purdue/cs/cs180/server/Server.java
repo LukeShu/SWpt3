@@ -48,6 +48,7 @@ public class Server implements MessageListener {
 	public Server(int port, String matchtype, long sleep) {
 		channel = new TCPChannel(port);
 		channel.setMessageListener(this);
+		(new Matcher(feeder, sleep, matchtype, channel)).start();
 	}
 
 	/**
