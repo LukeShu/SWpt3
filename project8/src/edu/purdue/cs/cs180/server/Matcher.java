@@ -23,6 +23,49 @@ public class Matcher extends Thread {
 			try {
 				sleep(sleepTime);
 			} catch (InterruptedException e) {}
-		}
+
+			if ((feeder.hasNextRequest() && feeder.hasNextResponse()))
+				Message responderMessage, requesterMessage;
+ 				if (matchingType.equals("FCFS")) {
+					responderMessage = feeder.getFirstResponse();
+					requesterMessage = feeder.getFirstRequest();
+					feeder.removeFirstResponse();
+					feeder.removeFirstRequest();
+
+				} else {
+					responderMessage = feeder.getLastResponse();
+					requesterMessage = feeder.getLastRequest();
+					feeder.removeLastResponse();
+					feeder.removeLastRequest();
+
+				}
+				
+			try {
+				channel.sendMessage(
+					new Message(Message.Type.Assigned,
+				  		requesterMessage.getInfo(),
+						responderMessage.getClientID()).toString(),
+					responderMessage.getClientID());
+
+				channel.sendMessage(
+					new Message(Message.Type.Assigned,
+						responderMessage.getInfo(),
+						requesterMessage.getClientID()).toString(),
+					requesterMessage.getClientID());
+
+			} 
+			catch (ChannelException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+
+			else {
+
+			}
+				
+		}	
+
 	}
+	
 }
+
