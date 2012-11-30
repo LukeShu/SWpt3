@@ -10,11 +10,17 @@ public class Matcher extends Thread {
 	private String matchingType;
 	private Channel channel;
 	public Matcher(DataFeeder f, long sleep, String matchingType, Channel channel) {
-		//your code
+		feeder = f;
+		sleepTime = sleep;
+		this.matchingType = matchingType;
+		this.channel = channel;
 	}
 	
 	@Override
 	public void run() {
-		//your code
+		while (true) {
+			//
+			sleep(sleepTime);
+		}
 	}
 }
