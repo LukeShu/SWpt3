@@ -113,48 +113,6 @@ public class Server implements MessageListener {
 		};
 
 	/**
-	 * Handles the messages, called from messageReceived. Designed to handle one
-	 * of 2 scenarios. If we receive a request, or if we receive a response, the
-	 * caller should maintain the from and to relation appropriately.
-	 * 
-	 * @param message
-	 * @param from
-	 * @param to
-	 */
-	private void messageHandler(Message message, ArrayList<Message> from,
-			ArrayList<Message> to) {
-		assert (message != null);
-		assert (from != null);
-		assert (to != null);
-		if (from.size() > 0) {
-			Message responderMessage = from.remove(0);
-			try {
-				channel.sendMessage(
-						new Message(Message.Type.Assigned, message.getInfo(),
-								responderMessage.getClientID()).toString(),
-						responderMessage.getClientID());
-
-				channel.sendMessage(new Message(Message.Type.Assigned,
-						responderMessage.getInfo(), message.getClientID())
-						.toString(), message.getClientID());
-			} catch (ChannelException e) {
-				e.printStackTrace();
-				System.exit(1);
-			}
-		} else {
-			to.add(message);
-			try {
-				channel.sendMessage(new Message(Message.Type.Searching, "",
-						message.getClientID()).toString(), message
-						.getClientID());
-			} catch (ChannelException e) {
-				e.printStackTrace();
-				System.exit(1);
-			}
-		}
-	}
-
-	/**
 	 * Handle messages received.
 	 */
 	@Override
@@ -166,10 +124,14 @@ public class Server implements MessageListener {
 		Message message = new Message(messageString, clientID);
 		switch (message.getType()) {
 		case Request:
-			messageHandler(message, pendingResponders, pendingRequesters);
+			synchronized (pendingRequesters) {
+				pendingRequesters.add(message);
+			}
 			break;
 		case Response:
-			messageHandler(message, pendingRequesters, pendingResponders);
+			synchronized (pendingResponders) {
+				pendingResponders.add(message);
+			}
 			break;
 		default:
 			System.err.println("Unexpected message of type "
