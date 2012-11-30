@@ -128,10 +128,30 @@ public class Server implements MessageListener {
 			synchronized (pendingRequesters) {
 				pendingRequesters.add(message);
 			}
+			try {
+				channel.sendMessage(new Message(
+						Message.Type.Searching,
+						"",
+						message.getClientID()).toString(),
+						message.getClientID());
+			} catch (ChannelException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
 			break;
 		case Response:
 			synchronized (pendingResponders) {
 				pendingResponders.add(message);
+			}
+			try {
+				channel.sendMessage(new Message(
+						Message.Type.Searching,
+						"",
+						message.getClientID()).toString(),
+						message.getClientID());
+			} catch (ChannelException e) {
+				e.printStackTrace();
+				System.exit(1);
 			}
 			break;
 		default:
