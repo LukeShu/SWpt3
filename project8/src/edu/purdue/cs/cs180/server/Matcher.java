@@ -1,6 +1,7 @@
 package edu.purdue.cs.cs180.server;
 
 import edu.purdue.cs.cs180.channel.Channel;
+import edu.purdue.cs.cs180.channel.ChannelException;
 import edu.purdue.cs.cs180.common.Message;
 
 public class Matcher extends Thread {
@@ -24,48 +25,38 @@ public class Matcher extends Thread {
 				sleep(sleepTime);
 			} catch (InterruptedException e) {}
 
-			if ((feeder.hasNextRequest() && feeder.hasNextResponse()))
+			if ((feeder.hasNextRequest() && feeder.hasNextResponse())) {
 				Message responderMessage, requesterMessage;
- 				if (matchingType.equals("FCFS")) {
+				if (matchingType.equals("FCFS")) {
 					responderMessage = feeder.getFirstResponse();
 					requesterMessage = feeder.getFirstRequest();
 					feeder.removeFirstResponse();
 					feeder.removeFirstRequest();
-
 				} else {
 					responderMessage = feeder.getLastResponse();
 					requesterMessage = feeder.getLastRequest();
 					feeder.removeLastResponse();
 					feeder.removeLastRequest();
-
 				}
-				
-			try {
-				channel.sendMessage(
-					new Message(Message.Type.Assigned,
-				  		requesterMessage.getInfo(),
-						responderMessage.getClientID()).toString(),
-					responderMessage.getClientID());
 
-				channel.sendMessage(
-					new Message(Message.Type.Assigned,
-						responderMessage.getInfo(),
-						requesterMessage.getClientID()).toString(),
-					requesterMessage.getClientID());
+				try {
+					channel.sendMessage(
+						new Message(Message.Type.Assigned,
+							requesterMessage.getInfo(),
+							responderMessage.getClientID()).toString(),
+						responderMessage.getClientID());
 
-			} 
-			catch (ChannelException e) {
-				e.printStackTrace();
-				System.exit(1);
-			}
-
-			else {
-
-			}
-				
-		}	
-
+					channel.sendMessage(
+						new Message(Message.Type.Assigned,
+							responderMessage.getInfo(),
+							requesterMessage.getClientID()).toString(),
+						requesterMessage.getClientID());
+				}
+				catch (ChannelException e) {
+					e.printStackTrace();
+					System.exit(1);
+				}
+			} /* has request & response */
+		} /* while */
 	}
-	
 }
-
